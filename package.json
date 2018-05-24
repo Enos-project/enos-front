@@ -18,7 +18,7 @@
     "rimraf": "rimraf",
     "clean:aot": "npm run rimraf -- compiled",
     "webpack": "node --max_old_space_size=4096 node_modules/webpack/bin/webpack.js",
-    "lint": "ng lint && npm run tslint \"src/**/*.ts\"",
+    "lint": "npm run tslint \"src/**/*.ts\"",
     "tslint": "tslint"
   },
   "private": true,
