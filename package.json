@@ -7,7 +7,8 @@
     "build": "ng build",
     "test": "ng test",
     "e2e": "ng e2e",
-    "ci:travis": "ng lint"
+    "ci:travis": "npm lint",
+    "lint": "tslint \"src/**/*.ts\""
   },
   "private": true,
   "dependencies": {
