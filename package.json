@@ -6,7 +6,6 @@
     "start": "ng serve",
     "build": "ng build",
     "test": "ng test",
-    "lint": "ng lint",
     "e2e": "ng e2e",
     "ci:travis": "cross-env BUILD_E2E=1 npm run lint && npm run test:ci && npm run build:aot && npm run e2e:travis",
     "test:ci": "karma start --single-run --browsers ChromeTravisCi",
@@ -19,7 +18,7 @@
     "rimraf": "rimraf",
     "clean:aot": "npm run rimraf -- compiled",
     "webpack": "node --max_old_space_size=4096 node_modules/webpack/bin/webpack.js",
-    "lint": "npm run tslint \"src/**/*.ts\"",
+    "lint": "ng lint && npm run tslint \"src/**/*.ts\"",
     "tslint": "tslint"
   },
   "private": true,
@@ -62,6 +61,6 @@
     "rimraf": "~2.6.2",
     "ts-node": "~5.0.1",
     "tslint": "~5.9.1",
-    "tslint-loader": "^3.5.3",
+    "tslint-loader": "^3.5.3"
   }
 }
