@@ -1,5 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import "~flag-icon-css/css/flag-icon.css";
+@import "~ngx-toastr/toastr.css";
+
+@import 'icons';
 
 body, html {
     height: 100%;
@@ -8,4 +12,55 @@ body, html {
     padding: 0;
     margin: 0 auto;
     display: block;
+
+    font-family: 'Tajawal', sans-serif;
+}
+
+a, a:hover, a:focus, a:active, a:visited {
+    color: #43A047;
+    text-decoration: none;
+}
+
+ul {
+    list-style-type: none;
+}
+
+.flex-container {
+    display: flex;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    align-items: center;
+    justify-content: center;
+
+    .flex-item {
+        text-align: center;
+        margin: 0 0.5em;
+    }
+}
+
+.full-size-container {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+mat-tab-group.full-size-container {
+    
+    div.mat-tab-body-wrapper {
+        @extend .full-size-container;
+
+        mat-tab-body {
+            @extend .full-size-container;
+        }
+    }
+}
+
+button[mat-fab] + div {
+    padding-top: 0.5em;
+}
+
+.app-fab-progress .mat-progress-spinner svg {
+    height: 70px !important;
+    width: 70px !important;
 }
