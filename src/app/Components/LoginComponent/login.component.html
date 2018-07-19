@@ -1,0 +1,24 @@
+<form>
+  <mat-card class="">
+    <mat-card-header>
+      <mat-card-title>Login</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-form-field>
+        <input [(ngModel)]="username" name="username" matInput placeholder="Login" type="text" id="login" autocomplete="username" />
+      </mat-form-field>
+      <mat-form-field>
+        <input [(ngModel)]="password" name="password" matInput placeholder="Password" type="password" id="password" autocomplete="current-password" />
+      </mat-form-field>
+      <span *ngIf="!!message" [ngClass]="{'color-primary': !messageError, 'color-warn': !!messageError}">
+        <i fontSet="mdi" class="mdi mdi-close color-warn" *ngIf="!!messageError"></i>
+        <i fontSet="mdi" class="mdi mdi-check color-primary" *ngIf="!messageError"></i>
+        {{ message }}
+      </span>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button color="primary" (click)="login()"  *ngIf="!authService.isLoggedIn()">Login</button>
+    </mat-card-actions>
+    <a routerLink="/register" routerLinkActive="active">Don't have an account yet?</a>
+  </mat-card>
+</form>

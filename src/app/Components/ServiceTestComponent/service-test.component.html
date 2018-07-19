@@ -1,0 +1,455 @@
+<div style="height: 100%; overflow-y: auto; display: block;">
+    <mat-tab-group class="full-size-container">
+        <mat-tab class="full-size-container">
+            <ng-template mat-tab-label>
+                <mat-icon fontSet="mdi" class="tab-icon mdi mdi-battery"></mat-icon> Battery
+            </ng-template>
+            <div class="flex-container">
+                <div class="flex-item" *ngIf="!!battery && battery.charging">
+                    <button mat-fab color="basic">
+                        <mat-icon fontSet="mdi" class="tab-icon mdi mdi-power-plug"></mat-icon>
+                    </button>
+                    <div>Charging</div>
+                </div>
+                <div class="flex-item" *ngIf="!!battery && !battery.charging">
+                    <button mat-fab color="basic">
+                        <mat-icon fontSet="mdi" class="tab-icon mdi mdi-power-plus-off"></mat-icon>
+                    </button>
+                    <div>Not in charge</div>
+                </div>
+                <div class="flex-item" *ngIf="!!battery && battery.pertinentChargingTime">
+                    <button mat-fab color="basic">
+                        <mat-icon fontSet="mdi" class="tab-icon mdi mdi-clock-outline"></mat-icon>
+                    </button>
+                    <div>Time left : {{ timeService.toHHMMSS(battery.chargingTime) }}</div>
+                </div>
+                <div class="flex-item" *ngIf="!!battery && battery.pertinentDischargingTime">
+                    <button mat-fab color="basic">
+                        <mat-icon fontSet="mdi" class="tab-icon mdi mdi-clock-outline"></mat-icon>
+                    </button>
+                    <div>Time to 100% : {{ timeService.toHHMMSS(battery.dischargingTime) }}</div>
+                </div>
+                <div class="flex-item" *ngIf="!!battery">
+                    <button mat-fab color="basic">
+                        <mat-icon fontSet="mdi" class="tab-icon mat-icon mdi {{ batteryService.getIcon(battery) }}"></mat-icon>
+                    </button>
+                    <div>{{ battery.level*100 + '%' }}</div>
+                </div>
+                <div class="flex-item" *ngIf="!battery">
+                    <button mat-fab color="basic">
+                        <mat-icon fontSet="mdi" class="tab-icon mdi mdi-battery-unknown"></mat-icon>
+                    </button>
+                    <div>No battery</div>
+                </div>
+            </div>
+        </mat-tab>
+        <mat-tab>
+            <ng-template mat-tab-label>
+                <mat-icon fontSet="mdi" class="tab-icon mdi mdi-clock-outline"></mat-icon> Time
+            </ng-template>
+            <div class="flex-container">
+                <div class="flex-item">
+                    <button mat-fab color="basic">
+                        <mat-icon fontSet="mdi" class="tab-icon mdi mdi-clock-outline"></mat-icon>
+                    </button>
+                    <div>{{ timeService.getLocalHour('HH:MM') }}</div>
+                </div>
+                <div class="flex-item">
+                    <button mat-fab color="basic">
+                        <mat-icon fontSet="mdi" class="tab-icon mdi mdi-clock-fast"></mat-icon>
+                    </button>
+                    <div>{{ timeService.getTimezone() }}</div>
+                </div>
+            </div>
+        </mat-tab>
+        <mat-tab>
+            <ng-template mat-tab-label>
+                <mat-icon fontSet="mdi" class="tab-icon mdi mdi-calendar-blank"></mat-icon> Date
+            </ng-template>
+            <div class="flex-container">
+                <div class="flex-item">
+                    <button mat-fab color="basic">
+                        <mat-icon fontSet="mdi" class="tab-icon mdi mdi-calendar-text"></mat-icon>
+                    </button>
+                    <div>{{ timeService.getLocalDate('DDD MMM YY') }}</div>
+                </div>
+                <div class="flex-item">
+                    <button mat-fab color="basic">
+                        <mat-icon fontSet="mdi" class="tab-icon mdi-calendar"></mat-icon>
+                    </button>
+                    <div>{{ timeService.getLocalDate('DD/MM/YY') }}</div>
+                </div>
+            </div>
+        </mat-tab>
+        <mat-tab>
+            <ng-template mat-tab-label>
+                <mat-icon fontSet="mdi" class="tab-icon mdi mdi-wrench"></mat-icon> System
+            </ng-template>
+            <div class="flex-container">
+                <div class="flex-item" *ngIf="userAgentService.isMobile()">
+                    <button mat-fab color="basic">
+                        <mat-icon fontSet="mdi" class="tab-icon mdi mdi-cellphone-android"></mat-icon>
+                    </button>
+                    <div>Mobile</div>
+                </div>
+                <div class="flex-item" *ngIf="!userAgentService.isMobile()">
+                    <button mat-fab color="basic">
+                        <mat-icon fontSet="mdi" class="tab-icon mdi mdi-monitor"></mat-icon>
+                    </button>
+                    <div>Desktop</div>
+                </div>
+                <div class="flex-item" *ngIf="userAgentService.getTouchpoints() > 0">
+                    <button mat-fab color="basic">
+                        <mat-icon fontSet="mdi" class="tab-icon mdi-gesture-tap"></mat-icon>
+                    </button>
+                    <div>{{ userAgentService.getTouchpoints() }} touchpoints</div>
+                </div>
+                <div class="flex-item">
+                    <button mat-fab color="basic">
+                        <mat-icon fontSet="fab" fontIcon="fa-{{ userAgentService.getOS().osIcon }}"></mat-icon>
+                    </button>
+                    <div>{{ userAgentService.getOS().os + ' ' + userAgentService.getOS().osVersion }}</div>
+                </div>
+                <div class="flex-item" *ngIf="!!userAgentService.getThreads()">
+                    <button mat-fab color="basic">
+                        <mat-icon fontSet="fas" fontIcon="fa-microchip"></mat-icon>
+                    </button>
+                    <div>{{ userAgentService.getThreads() }} threads</div>
+                </div>
+                <div class="flex-item" *ngIf="!!userAgentService.getMemory()">
+                    <button mat-fab color="basic">
+                        <mat-icon fontSet="fas" fontIcon="fa-memory"></mat-icon>
+                    </button>
+                    <div>{{ userAgentService.getMemory() }} GB</div>
+                </div>
+                <div class="flex-item" *ngIf="!!userAgentService.isVibrateCompatible()">
+                    <button mat-fab color="basic">
+                        <mat-icon fontSet="mdi" class="tab-icon mdi mdi-vibrate"></mat-icon>
+                    </button>
+                    <div>This device can vibrate!</div>
+                </div>
+                <div class="flex-item" *ngIf="!!userAgentService.isBluetoothCompatible()">
+                    <button mat-fab color="basic">
+                        <mat-icon fontSet="mdi" class="tab-icon mdi mdi-bluetooth"></mat-icon>
+                    </button>
+                    <div>This device has Bluetooth!</div>
+                </div>
+            </div>
+        </mat-tab>
+        <mat-tab>
+            <ng-template mat-tab-label>
+                <mat-icon fontSet="mdi" class="tab-icon mdi mdi-cached"></mat-icon> Browser
+            </ng-template>
+            <div class="flex-container">
+                <div class="flex-item">
+                    <button mat-fab color="basic">
+                        <mat-icon fontSet="fab" fontIcon="fa-{{ userAgentService.getBrowser().name.toLowerCase() }}"></mat-icon>
+                    </button>
+                    <div>
+                        {{ userAgentService.getBrowser().name }}
+                        {{ userAgentService.getBrowser().majorVersion }}<br/>
+                        ({{ userAgentService.getBrowser().completeVersion }})
+                    </div>
+                </div>
+                <div class="flex-item">
+                    <button mat-fab color="basic">
+                        <mat-icon fontSet="mdi" class="tab-icon mdi mdi-cookie"></mat-icon>
+                    </button>
+                    <div *ngIf="userAgentService.isCookiesEnabled()">Cookies enabled</div>
+                    <div *ngIf="!userAgentService.isCookiesEnabled()">Cookies disabled</div>
+                </div>
+                <div class="flex-item">
+                    <button mat-fab color="basic">
+                        <mat-icon fontSet="fas" fontIcon="fa-puzzle-piece"></mat-icon>
+                    </button>
+                    <ul>
+                        <li *ngFor="let plugin of userAgentService.getPlugins()">{{ plugin }}</li>
+                    </ul>
+                </div>
+            </div>
+        </mat-tab>
+        <mat-tab *ngIf="!!memory">
+            <ng-template mat-tab-label>
+                <mat-icon fontSet="mdi" class="tab-icon mdi mdi-memory"></mat-icon> Memory
+            </ng-template>
+            <div class="flex-container">
+                <div class="flex-item">
+                    <app-fab-progress percentage="{{ memory.percentageUsedOfTotal }}" icon="memory"></app-fab-progress>
+                    <div>
+                        enos : {{ memory.percentageUsedOfTotal }}%<br/>
+                        {{ memory.usedJSHeapSize + 'Mo / ' + memory.totalJSHeapSize + 'Mo' }}
+                    </div>
+                </div>
+                <div class="flex-item">
+                    <app-fab-progress percentage="{{ memory.percentageTotalOfLimit }}" icon="memory"></app-fab-progress>
+                    <div>
+                        Chrome : {{ memory.percentageTotalOfLimit }}%<br/>
+                        {{ memory.totalJSHeapSize + 'Mo / ' + memory.jsHeapSizeLimit + 'Mo' }}
+                    </div>
+                </div>
+                <div class="flex-item">
+                    <app-fab-progress percentage="{{ memory.percentageTotalOfTotal }}" icon="memory"></app-fab-progress>
+                    <div>
+                        Total : {{ memory.percentageTotalOfTotal }}%<br/>
+                        {{ memory.usedJSHeapSize + 'Mo / ' + memory.jsHeapSizeLimit + 'Mo' }}
+                    </div>
+                </div>
+            </div>
+        </mat-tab>
+        <mat-tab>
+            <ng-template mat-tab-label>
+                <mat-icon fontSet="mdi" class="tab-icon mdi mdi-flag"></mat-icon> Languages
+            </ng-template>
+            <div class="flex-container">
+                <div class="flex-item">
+                    <button mat-fab color="basic">
+                        <mat-icon fontSet="mdi" class="tab-icon mdi mdi-flag"></mat-icon>
+                    </button>
+                    <div>
+                        {{ userAgentService.getLanguageInEnglish() }} ({{ userAgentService.getLanguage() }})
+                    </div>
+                </div>
+                <div class="flex-item">
+                    <button mat-fab color="basic">
+                        <span class="flag-icon flag-icon-{{ userAgentService.getLanguageIso2() }} flag-icon-squared"></span>
+                    </button>
+                    <div>
+                        {{ userAgentService.getLanguageInNative() }}
+                    </div>
+                </div>
+            </div>
+        </mat-tab>
+        <mat-tab>
+            <ng-template mat-tab-label>
+                <mat-icon fontSet="mdi" class="tab-icon mdi mdi-fullscreen"></mat-icon> Display
+            </ng-template>
+            <div class="flex-container">
+                <div class="flex-item">
+                    <button mat-fab color="basic">
+                        <mat-icon fontSet="mdi" class="tab-icon mdi mdi-monitor"></mat-icon>
+                    </button>
+                    <div>
+                        Screen size<br/>
+                        {{ display.width.screen }}px x {{ display.height.screen }}px<br/>
+                        Screen : {{ display.isLandscapeScreen?'Landscape':'Portrait' }}
+                    </div>
+                </div>
+                <div class="flex-item">
+                    <button mat-fab color="basic">
+                        <mat-icon fontSet="mdi" class="tab-icon mdi mdi-arrow-all"></mat-icon>
+                    </button>
+                    <div>
+                        Available size<br/>
+                        {{ display.width.available }}px x {{ display.height.available }}px<br/>
+                    </div>
+                </div>
+                <div class="flex-item">
+                    <button mat-fab color="basic">
+                        <mat-icon fontSet="mdi" class="tab-icon mdi mdi-application"></mat-icon>
+                    </button>
+                    <div>
+                        Window size<br/>
+                        {{ display.width.outer }}px x {{ display.height.outer }}px<br/>
+                        Window : {{ display.isLandscapeWindow?'Landscape':'Portrait' }}
+                    </div>
+                </div>
+                <div class="flex-item">
+                    <button mat-fab color="basic">
+                        <mat-icon fontSet="mdi" class="tab-icon mdi mdi-crop-landscape"></mat-icon>
+                    </button>
+                    <div>
+                        Inner size<br/>
+                        {{ display.width.inner }}px x {{ display.height.inner }}px
+                    </div>
+                </div>
+            </div>
+        </mat-tab>
+        <mat-tab>
+            <ng-template mat-tab-label>
+                <mat-icon fontSet="mdi" class="tab-icon mdi mdi-traffic-light"></mat-icon> Permissions
+            </ng-template>
+            <div class="flex-container">
+                <div class="flex-item">
+                    <button mat-fab color="basic">
+                        <mat-icon fontSet="mdi" class="tab-icon mdi mdi-speaker"></mat-icon>
+                    </button>
+                    <div *ngIf="this.permissions">
+                        Sound<br/>
+                        <span class='{{ this.getColorForPermission(this.permissions.microphone) }}' *ngIf="this.permissions.microphone !== 'prompt'">
+                            <mat-icon fontSet="mdi" class="tab-icon mdi {{ this.getIconForPermission(this.permissions.microphone) }}"></mat-icon>
+                            {{ this.permissions.microphone | titlecase }}<br/>
+                        </span>
+                        <button mat-raised-button color="basic" *ngIf="this.permissions.microphone === 'prompt'" (click)="this.permissionService.requestPermission('microphone')">
+                            REQUEST
+                        </button>
+                    </div>
+                </div>
+                <div class="flex-item">
+                    <button mat-fab color="basic">
+                        <mat-icon fontSet="mdi" class="tab-icon mdi mdi-microphone"></mat-icon>
+                    </button>
+                    <div *ngIf="this.permissions">
+                        Record<br/>
+                        <span class='{{ this.getColorForPermission(this.permissions.microphone) }}' *ngIf="this.permissions.microphone !== 'prompt'">
+                            <mat-icon fontSet="mdi" class="tab-icon mdi {{ this.getIconForPermission(this.permissions.microphone) }}"></mat-icon>
+                            {{ this.permissions.microphone | titlecase }}<br/>
+                        </span>
+                        <button mat-raised-button color="basic" *ngIf="this.permissions.microphone === 'prompt'" (click)="this.permissionService.requestPermission('microphone')">
+                            REQUEST
+                        </button>
+                    </div>
+                </div>
+                <div class="flex-item">
+                    <button mat-fab color="basic">
+                        <mat-icon fontSet="mdi" class="tab-icon mdi mdi-camcorder"></mat-icon>
+                    </button>
+                    <div *ngIf="this.permissions">
+                        Video<br/>
+                        <span class='{{ this.getColorForPermission(this.permissions.camera) }}' *ngIf="this.permissions.camera !== 'prompt'">
+                            <mat-icon fontSet="mdi" class="tab-icon mdi {{ this.getIconForPermission(this.permissions.camera) }}"></mat-icon>
+                            {{ this.permissions.camera | titlecase }}<br/>
+                        </span>
+                        <button mat-raised-button color="basic" *ngIf="this.permissions.camera === 'prompt'" (click)="this.permissionService.requestPermission('camera')">
+                            REQUEST
+                        </button>
+                    </div>
+                </div>
+                <div class="flex-item">
+                    <button mat-fab color="basic">
+                        <mat-icon fontSet="mdi" class="tab-icon mdi mdi-crosshairs-gps"></mat-icon>
+                    </button>
+                    <div *ngIf="this.permissions">
+                        Geolocation<br/>
+                        <span class='{{ this.getColorForPermission(this.permissions.geolocation) }}' *ngIf="this.permissions.geolocation !== 'prompt'">
+                            <mat-icon fontSet="mdi" class="tab-icon mdi {{ this.getIconForPermission(this.permissions.geolocation) }}"></mat-icon>
+                            {{ this.permissions.geolocation | titlecase }}<br/>
+                        </span>
+                        <button mat-raised-button color="basic" *ngIf="this.permissions.geolocation === 'prompt'" (click)="this.permissionService.requestPermission('geolocation')">
+                            REQUEST
+                        </button>
+                    </div>
+                </div>
+                <div class="flex-item">
+                    <button mat-fab color="basic">
+                        <mat-icon fontSet="mdi" class="tab-icon mdi mdi-bell"></mat-icon>
+                    </button>
+                    <div *ngIf="this.permissions">
+                        Notifications<br/>
+                        <span class='{{ this.getColorForPermission(this.permissions.notifications) }}' *ngIf="this.permissions.notifications !== 'prompt'">
+                            <mat-icon fontSet="mdi" class="tab-icon mat-icon mdi {{ this.getIconForPermission(this.permissions.notifications) }}"></mat-icon>
+                            {{ this.permissions.notifications | titlecase }}<br/>
+                        </span>
+                        <button mat-raised-button color="basic" *ngIf="this.permissions.notifications === 'prompt'" (click)="this.permissionService.requestPermission('notifications')">
+                            REQUEST
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </mat-tab>
+        <mat-tab>
+            <ng-template mat-tab-label>
+                <mat-icon fontSet="mdi" class="tab-icon mdi mdi-speaker"></mat-icon> Sound
+            </ng-template>
+        </mat-tab>
+        <mat-tab>
+            <ng-template mat-tab-label>
+                <mat-icon fontSet="mdi" class="tab-icon mdi mdi-microphone"></mat-icon> Record
+            </ng-template>
+        </mat-tab>
+        <mat-tab>
+            <ng-template mat-tab-label>
+                <mat-icon fontSet="mdi" class="tab-icon mdi mdi-camcorder"></mat-icon> Video
+            </ng-template>
+        </mat-tab>
+        <mat-tab>
+            <ng-template mat-tab-label>
+                <mat-icon fontSet="mdi" class="tab-icon mdi mdi-network-strength-4"></mat-icon> Network
+            </ng-template>
+            <div class="flex-container">
+                <div class="flex-item" *ngIf="this.networkInformation && this.networkInformation.downlink">
+                    <button mat-fab color="basic">
+                        <mat-icon fontSet="mdi" class="tab-icon mdi mdi-speedometer"></mat-icon>
+                    </button>
+                    <div>
+                        {{ this.networkInformation.downlink }} Mbps
+                    </div>
+                </div>
+                <div class="flex-item" *ngIf="this.networkInformation && this.networkInformation.effectiveType">
+                    <button mat-fab color="basic">
+                        <mat-icon fontSet="mdi" class="tab-icon mdi {{ this.networkService.getIconForEffectiveType(this.networkInformation.effectiveType) }}"></mat-icon>
+                    </button>
+                    <div>
+                        {{ this.networkInformation.effectiveType }}
+                    </div>
+                </div>
+            </div>
+        </mat-tab>
+        <mat-tab>
+            <ng-template mat-tab-label>
+                <mat-icon fontSet="mdi" class="tab-icon mdi mdi-crosshairs-gps"></mat-icon> Geolocation
+            </ng-template>
+            <div class="flex-container">
+                <div class="flex-item" *ngIf="this.location">
+                    <button mat-fab color="basic">
+                        <mat-icon fontSet="mdi" class="tab-icon mdi mdi-crosshairs-gps"></mat-icon>
+                    </button>
+                    <div>
+                        {{ this.location.latitude }} / {{ this.location.longitude }}
+                    </div>
+                </div>
+                <div class="flex-item" *ngIf="this.location">
+                    <button mat-fab color="basic">
+                        <mat-icon fontSet="mdi" class="tab-icon mdi mdi-map-marker"></mat-icon>
+                    </button>
+                    <div>
+                        
+                    </div>
+                </div>
+            </div>
+        </mat-tab>
+        <mat-tab>
+            <ng-template mat-tab-label>
+                <mat-icon fontSet="mdi" class="tab-icon mdi mdi-bell"></mat-icon> Notifications
+            </ng-template>
+            <div class="flex-container">
+                <div class="flex-item">
+                    <button mat-fab color="basic" (click)="this.notificationService.success('test', 'title');">
+                        <mat-icon fontSet="mdi" class="tab-icon mdi mdi-check-circle-outline"></mat-icon>
+                    </button>
+                    <div>
+                        Success
+                    </div>
+                </div>
+                <div class="flex-item">
+                    <button mat-fab color="basic" (click)="this.notificationService.info('test', 'title');">
+                        <mat-icon fontSet="mdi" class="tab-icon mdi mdi-information-outline"></mat-icon>
+                    </button>
+                    <div>
+                        Info
+                    </div>
+                </div>
+                <div class="flex-item">
+                    <button mat-fab color="basic" (click)="this.notificationService.warning('test', 'title');">
+                        <mat-icon fontSet="mdi" class="tab-icon mdi mdi-alert-circle-outline"></mat-icon>
+                    </button>
+                    <div>
+                        Warning
+                    </div>
+                </div>
+                <div class="flex-item">
+                    <button mat-fab color="basic" (click)="this.notificationService.error('test', 'title');">
+                        <mat-icon fontSet="mdi" class="tab-icon mdi mdi-close-circle-outline"></mat-icon>
+                    </button>
+                    <div>
+                        Error
+                    </div>
+                </div>
+            </div>
+        </mat-tab>
+        <mat-tab>
+            <ng-template mat-tab-label>
+                <mat-icon fontSet="mdi" class="tab-icon mdi mdi-page-layout-header"></mat-icon> Push
+            </ng-template>
+        </mat-tab>
+    </mat-tab-group>
+</div>

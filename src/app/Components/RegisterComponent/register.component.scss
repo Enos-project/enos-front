@@ -1,0 +1,10 @@
+
+mat-card {
+    mat-card-title {
+        font-size: 150%;
+    }
+
+    mat-form-field + mat-form-field {
+        margin-left: 2em;
+    }
+}
