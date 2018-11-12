@@ -10,7 +10,7 @@ import { RegisterComponent } from '../Components/RegisterComponent/register.comp
 import { LogoutComponent } from '../Components/LogoutComponent/logout.component';
 import { LoggedComponent } from '../Components/LoggedComponent/logged.component';
 
-import { AuthGuardService } from './auth-guard.service';
+import { AuthGuardService } from '../Services/Auth/auth-guard.service';
 
 const appRoutes: Routes = [
     { path: '', redirectTo: '/login', pathMatch: 'full' },

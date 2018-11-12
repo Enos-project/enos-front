@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
-import { AuthService } from '../../Routing/auth.service';
-import { UserType } from '../../Types/Entities/UserType';
+import { CookieType } from '../../Types/CookieType';
+import { StoreUserService } from '../../Services/Auth/store-user.service';
 
 @Component({
   selector: 'app-logged-root',
@@ -9,10 +9,10 @@ import { UserType } from '../../Types/Entities/UserType';
   styleUrls: ['./logged.component.scss']
 })
 export class LoggedComponent {
-  user: UserType;
+  user: CookieType;
 
-  constructor(authService: AuthService) {
-    this.user = authService.fetchLoggedInUser();
+  constructor(storeUserService: StoreUserService) {
+    this.user = storeUserService.getUser();
   }
 
 }

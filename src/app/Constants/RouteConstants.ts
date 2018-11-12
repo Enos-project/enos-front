@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 
-import { HostConstants } from '../Constants/HostConstants';
+import { HostConstants } from './HostConstants';
 
 @Injectable()
 export class RouteConstants {
 
     static getRoutes(): Object {
         return {
-            'login': '/auth/login'
+            'login': '/auth/login',
+            'installationsForUser': '/secured/installation/user/'
         };
     }
 

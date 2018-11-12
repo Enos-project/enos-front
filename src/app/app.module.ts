@@ -23,8 +23,9 @@ import { LogoutComponent } from './Components/LogoutComponent/logout.component';
 import { PageNotFoundComponent } from './Components/PageNotFoundComponent/pagenotfound.component';
 import { LoggedComponent } from './Components/LoggedComponent/logged.component';
 
-import { AuthService } from './Routing/auth.service';
-import { AuthGuardService } from './Routing/auth-guard.service';
+import { AuthService } from './Services/Auth/auth.service';
+import { AuthGuardService } from './Services/Auth/auth-guard.service';
+import { StoreUserService } from './Services/Auth/store-user.service';
 
 import { BatteryService } from './Services/UserAgent/battery.service';
 import { DisplayService } from './Services/UserAgent/display.service';
@@ -37,8 +38,12 @@ import { DeviceService } from './Services/UserAgent/device.service';
 
 import { NotificationService } from './Services/notification.service';
 
-import { HttpClientService } from './Services/http-client.service';
-import { LoginService } from './Services/login.service';
+import { HttpClientService } from './Services/Auth/http-client.service';
+import { HttpAuthenticatedClientService } from './Services/Auth/http-authenticated-client.service';
+import { LoginService } from './Services/Auth/login.service';
+
+// APPS
+import { App1Module } from './Apps/App1/app1.module';
 
 @NgModule({
   declarations: [
@@ -64,7 +69,10 @@ import { LoginService } from './Services/login.service';
     AppRoutingModule,
     FormsModule,
     HttpModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+
+    // APPS
+    App1Module
   ],
   providers: [
     MatIconRegistry,
@@ -72,6 +80,10 @@ import { LoginService } from './Services/login.service';
     // AUTH
     AuthService,
     AuthGuardService,
+    StoreUserService,
+    HttpClientService,
+    HttpAuthenticatedClientService,
+    LoginService,
 
     // USER AGENT SERVICES
     BatteryService,
@@ -84,8 +96,6 @@ import { LoginService } from './Services/login.service';
     DeviceService,
 
     // OTHER SERVICES
-    HttpClientService,
-    LoginService,
     NotificationService
   ],
   bootstrap: [ AppComponent ]
